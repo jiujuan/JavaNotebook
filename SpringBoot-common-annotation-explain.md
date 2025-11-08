@@ -217,6 +217,7 @@ public class AppConfig {
     }
 }
 ```
+
 ### @Value
 
 作用：注入配置文件（如 `application.properties`）中的属性值。
@@ -228,6 +229,7 @@ public class MyComponent {
     private int timeout;
 }
 ```
+
 ### @ConfigurationProperties
 
 作用：批量绑定配置文件中的属性到对象。
@@ -240,6 +242,82 @@ public class AppConfig {
     // getters/setters
 }
 ```
+
+### @EnableConfigurationProperties
+
+`@EnableConfigurationProperties` 是 SpringBoot 提供的注解，用于启用对 `@ConfigurationProperties` 注解类的支持。它将外部配置文件（如 application.properties 或 application.yml）中的属性绑定到 Java Bean，并将该类注册为 Spring 容器中的 Bean。
+
+下面完整示例代码：
+
+**配置属性类**
+
+```java
+
+@ConfigurationProperties(prefix = "app")
+public class AppProperties {
+   private String name;
+   private String description;
+
+   // Getter 和 Setter 方法
+   public String getName() {
+       return name;
+   }
+
+   public void setName(String name) {
+       this.name = name;
+   }
+
+   public String getDescription() {
+       return description;
+   }
+
+   public void setDescription(String description) {
+       this.description = description;
+   }
+}
+```
+
+**启用配置属性**
+```java
+@SpringBootApplication
+@EnableConfigurationProperties(AppProperties.class)
+public class MyApplication {
+   public static void main(String[] args) {
+       SpringApplication.run(MyApplication.class, args);
+   }
+}
+```
+
+**使用配置属性**
+```java
+@Service
+public class MyService {
+   private final AppProperties appProperties;
+
+   @Autowired
+   public MyService(AppProperties appProperties) {
+       this.appProperties = appProperties;
+   }
+
+   public void printAppDetails() {
+       System.out.println("App Name: " + appProperties.getName());
+       System.out.println("App Description: " + appProperties.getDescription());
+   }
+}
+```
+
+**配置文件示例**
+```yml
+app.name=My Application
+app.description=This is a sample application
+```
+
+注意事项⚠️
+> 1、如果类上仅使用了 `@ConfigurationProperties`，但未通过 @Component 或其他方式注册到 IOC 容器中，则需要使用 `@EnableConfigurationProperties` 来启用。
+> 2、使用此注解时，确保配置类包含必要的 Getter 和 Setter 方法，否则无法完成属性绑定。
+
+通过 `@EnableConfigurationProperties`，可以轻松实现外部配置与 Java Bean 的绑定，提升代码的模块化和可维护性
+
 ### @ConditionalOnProperty
 
 作用：根据配置属性条件决定是否创建 Bean。
@@ -249,6 +327,8 @@ public class AppConfig {
 @ConditionalOnProperty(name = "cache.enabled", havingValue = "true")
 public CacheService cacheService() { /* 仅当配置启用缓存时生效 */ }
 ```
+
+
 ## 其它
 
 ### @Aspect
