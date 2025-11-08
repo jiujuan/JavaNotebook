@@ -135,6 +135,7 @@ public class UserRepository { /* ... */ }
 @Component
 public class MyCustomComponent { /* ... */ }
 ```
+
 ### @Qualifier
 
 作用：指定注入的 Bean 名称。
@@ -152,6 +153,7 @@ public class MyController {
     private MyService myService;
 }
 ```
+
 ### @Conditional
 
 作用：条件注解，根据条件决定是否创建 Bean。
@@ -164,7 +166,42 @@ public MyBean myBean() {
 }
 
 ```
+
+### @ConditionalOnMissingBean
+
+作用：它是一个条件注解，它确保只有当容器中不存在某个 bean 时，才会创建一个 bean。
+
+这个注解通常用于自动配置类中，以提供默认的 bean 实现，但允许用户通过创建自己的 bean 定义来覆盖它。
+
+```java
+@Configuration
+public class AutoConfig {
+   @Bean
+   public AConfig aConfig() {
+       return new AConfig("lind");
+   }
+
+   @Bean
+   @ConditionalOnMissingBean(AMapper.class)
+   public AMapper aMapper1(AConfig aConfig) {
+       return new AMapperImpl1(aConfig);
+   }
+
+   @Bean
+   public AMapper aMapper2(AConfig aConfig) {
+       return new AMapperImpl2(aConfig);
+   }
+}
+```
+
+在上面代码配置中，如果 AMapper 类型的 bean 已经存在，则 aMapper1 不会被创建。这保证了AMapper 类型的 bean 只有一个实例。
+
+> @ConditionalOnMissingBean 是一个强大的工具，用于在 SpringBoot 自动配置中提供默认的 bean 实现。
+> 然而，它的使用需要谨慎，以确保 bean 的加载顺序不会导致意外的行为。通过将配置类标记为自动配置类，并确保它们在正确的顺序中加载，可以最大限度地减少问题。
+
+
 ## 配置相关
+
 ### @Configuration & @Bean
 
 作用：定义配置类，并在其中声明 Bean。
