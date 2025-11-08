@@ -314,6 +314,7 @@ app.description=This is a sample application
 
 注意事项⚠️
 > 1、如果类上仅使用了 `@ConfigurationProperties`，但未通过 @Component 或其他方式注册到 IOC 容器中，则需要使用 `@EnableConfigurationProperties` 来启用。
+> 
 > 2、使用此注解时，确保配置类包含必要的 Getter 和 Setter 方法，否则无法完成属性绑定。
 
 通过 `@EnableConfigurationProperties`，可以轻松实现外部配置与 Java Bean 的绑定，提升代码的模块化和可维护性
