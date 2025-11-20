@@ -1,4 +1,4 @@
-# JavaHero 简介
+# JavaNotebook 简介
 java 语言基础语法特性学习，java 学习指南，Java 学习路线图，Java面试指南
 
 # Java 语言特性
