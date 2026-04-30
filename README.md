@@ -26,3 +26,4 @@ java 语言基础语法特性学习，java 学习指南，Java 学习路线图�
 # Java学习资料
 - [Java基础、MySQL、Springboot、MyBatis、Redis，Java面试大全](https://gitee.com/tysondai/Java-learning/)
 - [Java 全栈知识体系](https://pdai.tech/)
+- [异地多活架构设计看这篇就够了](https://cloud.tencent.com/developer/article/2457792)
